@@ -93,13 +93,36 @@ const CLIENT_ID =
 function App() {
   const [cookieValue, setCookieValue] = useState('');
 
+  // const handleGetCookieClick = async () => {
+  //   try {
+  //     const response = await fetch('http://localhost:3001/set-cookie', {
+  //       credentials: 'include',
+  //     });
+  //     const data = await response.json();
+  //     setCookieValue(document.cookie);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
   const handleGetCookieClick = async () => {
     try {
       const response = await fetch('http://localhost:3001/set-cookie', {
         credentials: 'include',
       });
-      const data = await response.json();
       setCookieValue(document.cookie);
+      
+      // Send the POST request
+      const postResponse = await fetch('http://localhost:3001/post-data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data: 'example-data' }),
+        credentials: 'include',
+      });
+      console.log(await postResponse.json());
+  
     } catch (error) {
       console.error(error);
     }
@@ -117,12 +140,30 @@ function App() {
     }
   };
 
+  // const handlePostDataClick = async () => {
+  //   try {
+  //     const response = await fetch('http://localhost:3001/post-data', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({ data: 'example-data' }),
+  //       credentials: 'include',
+  //     });
+  //     console.log(await response.json());
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
   return (
     <div>
       <button onClick={handleGetCookieClick}>Get Cookie</button>
+      {/* <button onClick={handlePostDataClick}>Post Data</button> */}
       <GoogleLogin
       onSuccess={(credentialResponse) => {
-        handleGoogleLogin(credentialResponse)
+        handleGetCookieClick()
+        // handleGoogleLogin(credentialResponse)
       }}
       onError={() => {
         console.log("Login Failed");

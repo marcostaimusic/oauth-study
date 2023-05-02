@@ -115,6 +115,11 @@ app.get('/set-cookie', (req, res) => {
   res.send({res:'Cookie set successfully'});
 });
 
+app.post('/post-data', (req, res) => {
+  const cookieValue = req.headers.cookie;
+  console.log('Cookie value:', cookieValue);
+});
+
 app.listen(3001, () => {
   console.log('Express backend listening on port 3001');
 });
